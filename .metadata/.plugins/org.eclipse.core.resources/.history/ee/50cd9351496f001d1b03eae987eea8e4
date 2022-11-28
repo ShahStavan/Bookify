@@ -87,9 +87,8 @@ public class sellerInfo {
 	public static int register(String username, String password, Connection con, String email) throws SQLException
 	{
 		
-		//String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
-		//boolean isValidPassword = isValidPassword(password,regex);
-		/*
+		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+		boolean isValidPassword = isValidPassword(password,regex);
 		if(isValidPassword == false)
 			return 0;
 		else
@@ -102,14 +101,6 @@ public class sellerInfo {
 			int i = pstmt.executeUpdate();
 			return i;
 		}
-		*/
-		Statement st = (Statement) con.createStatement();
-		PreparedStatement pstmt = (PreparedStatement) con.prepareStatement("insert into account (username,email,password)values(?,?,?)");
-		pstmt.setString(1, username);
-		pstmt.setString(2, email);
-		pstmt.setString(3, password);
-		int i = pstmt.executeUpdate();
-		return i;
 		
 	
 	}
@@ -118,7 +109,6 @@ public class sellerInfo {
      * @param password
      * @return boolean
      */
-	/*
     public static boolean isValidPassword(String password, String regex)
     {
             boolean isValid = true;
@@ -153,5 +143,4 @@ public class sellerInfo {
             }
             return isValid;
     }
-    */
 }

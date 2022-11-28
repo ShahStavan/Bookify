@@ -41,12 +41,10 @@ public class sellerInfo {
 				System.out.println("------------RESGISTER------------");
 				System.out.println("Enter Username:");
 				username = sc.next();
-				System.out.println("Enter Email:");
-				email = sc.next();
 				System.out.println("Enter Password:");
 				password = sc.next();
 				System.out.println("Password:" + password);
-				int value = sellerInfo.register(username, password, conn, email);
+				int value = sellerInfo.login(username, password, conn);
 				if(value == 0)
 					System.out.println("Password doesn't match our Pattern!\n----------------------------------\n 1. Password Length: preferably over 8 characters\n 2. Complexity of Password: Must Contain LowerCase and UpperCase letters\n 3. Must Contain a numeric value\n 4. Must Contain a symbol");
 				else
@@ -87,9 +85,8 @@ public class sellerInfo {
 	public static int register(String username, String password, Connection con, String email) throws SQLException
 	{
 		
-		//String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
-		//boolean isValidPassword = isValidPassword(password,regex);
-		/*
+		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+		boolean isValidPassword = isValidPassword(password,regex);
 		if(isValidPassword == false)
 			return 0;
 		else
@@ -102,14 +99,6 @@ public class sellerInfo {
 			int i = pstmt.executeUpdate();
 			return i;
 		}
-		*/
-		Statement st = (Statement) con.createStatement();
-		PreparedStatement pstmt = (PreparedStatement) con.prepareStatement("insert into account (username,email,password)values(?,?,?)");
-		pstmt.setString(1, username);
-		pstmt.setString(2, email);
-		pstmt.setString(3, password);
-		int i = pstmt.executeUpdate();
-		return i;
 		
 	
 	}
@@ -118,7 +107,6 @@ public class sellerInfo {
      * @param password
      * @return boolean
      */
-	/*
     public static boolean isValidPassword(String password, String regex)
     {
             boolean isValid = true;
@@ -153,5 +141,4 @@ public class sellerInfo {
             }
             return isValid;
     }
-    */
 }
