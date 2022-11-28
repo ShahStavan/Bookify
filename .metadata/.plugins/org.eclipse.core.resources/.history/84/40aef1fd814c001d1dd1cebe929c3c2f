@@ -1,0 +1,43 @@
+package beans;
+import java.util.*;
+import java.io.Console;
+import java.sql.SQLException;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.ResultSet;
+import com.mysql.jdbc.Statement;
+
+public class sellerInfo {
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Console console = System.console();
+		System.out.println("Enter Username:");
+		String uname = sc.nextLine();
+		System.out.println("Enter Password:");
+		char[] password = console.readPassword();
+		
+		DatabaseConnection dbConnection = new DatabaseConnection("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/","root","","bookify");
+		try {
+			Connection conn = dbConnection.initilizeConnection();
+			Statement st = (Statement) conn.createStatement();
+			
+			ResultSet rs = (ResultSet) st.executeQuery("select * from seller");
+			while(rs.next())
+			{
+				System.out.println("ID: " + rs.getInt("id") + " " + "NAME: " + rs.getString("name"));
+			}
+			conn.close();
+			
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		}
+
+}

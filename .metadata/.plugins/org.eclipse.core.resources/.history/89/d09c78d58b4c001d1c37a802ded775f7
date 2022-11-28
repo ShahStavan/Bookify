@@ -1,0 +1,110 @@
+package beans;
+import java.util.*;
+import java.io.Console;
+import java.sql.SQLException;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSet;
+import com.mysql.jdbc.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class sellerInfo {
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Login(0) | Register(1)");
+		int choice = sc.nextInt();
+		String uname,password;
+		
+		DatabaseConnection dbConnection = new DatabaseConnection("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/","root","","bookify");
+		try {
+			Connection conn = dbConnection.initilizeConnection();
+			
+			switch(choice)
+			{
+			case 0:
+				System.out.println("------------LOGIN------------");
+				System.out.println("Enter Username:");
+				uname = sc.next();
+				System.out.println("Enter Password:");
+				password = sc.next();
+				int id = sellerInfo.login(uname, password, conn);
+				if(id != 0)
+				{
+					System.out.println("LOGIN SUCCESSFUL");
+				}
+				else
+				{
+					System.out.println("INVALID CREDENTIALS or NO SUCH USER FOUND!");
+				}
+				
+				
+				
+			break;
+			case 1:
+				System.out.println("------------RESGISTER------------");
+				System.out.println("Enter Username:");
+				uname = sc.nextLine();
+				System.out.println("Enter Password:");
+				password = sc.nextLine();
+				System.out.println("Password:" + password);
+				
+			break;
+			default:
+				System.out.println("Invalid Choice!");
+				
+			}
+			
+			conn.close();
+			
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		}
+	public static int login(String uname, String password, Connection con) throws SQLException
+	{
+		Statement st = (Statement) con.createStatement();
+		String query = "select id from seller where name = '"+uname+"' and pass = '"+password+"'";
+		ResultSet rs = (ResultSet) st.executeQuery(query);
+		int id=0;
+		while(rs.next()) {
+			id = rs.getInt(1);
+		}
+		if(id == 0){
+			return 0;
+		}
+		return id;
+	}
+	public static int register(String uname, String password, Connection con) throws SQLException
+	{
+		
+		boolean isValidPassword = isValidPassword(password);
+		if(isValidPassword == false)
+			return 0;
+		else
+		{
+			Statement st = (Statement) con.createStatement();
+			PreparedStatement pstmt = (PreparedStatement) con.prepareStatement("insert into seller values(?,?)");
+			pstmt.setString(1, uname);
+			pstmt.setString(2, password);
+			int i = pstmt.executeUpdate();
+			return i;
+		}
+	}
+	public static boolean isValidPassword(String password)
+    {
+		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+}
