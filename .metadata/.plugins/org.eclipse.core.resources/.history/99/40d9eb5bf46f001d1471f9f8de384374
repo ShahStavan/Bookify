@@ -1,0 +1,59 @@
+package beans;
+import java.sql.SQLException;
+import java.util.*;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Statement;
+
+public class books{
+	String name,date,author,category;
+	String category_list[] = {"Self-Growth", "Happiness", "Productivity", "Business & Career", "Money & Investments", "Leadership", "Negotiation" , "Love & Sex", "Health", "Sports & Fitness", "Society & Tech", "Personalities", "Spirituality", "Family", "Home & Environment", "Fiction" };
+	books(String name, String date, String author, int choice)
+	{
+		this.name = name;
+		this.date = date;
+		this.author = author;
+		this.category = category_list[choice - 1];
+	}
+	public void Display()
+	{
+		System.out.println("Book Data");
+		System.out.println("Name:" + name);
+		System.out.println("Author:" + author);
+		System.out.println("Published Date:" + date);
+		System.out.println("Category:" + category);
+		
+	}
+	public int insert()
+	{
+		DatabaseConnection dbConnection = new DatabaseConnection("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/","root","","bookify");
+		// TODO Auto-generated method stub
+		try {
+			Connection conn = dbConnection.initilizeConnection();
+			Statement st = (Statement) conn.createStatement();
+			PreparedStatement pstmt = (PreparedStatement) con.prepareStatement("insert into books (book_name,category,author,Publish)values(?,?,?)");
+			pstmt.setString(1, username);
+			pstmt.setString(2, email);
+			pstmt.setString(3, password);
+			int i = pstmt.executeUpdate();
+			return i;
+			conn.close();
+		} catch (ClassNotFoundException e) {
+	// TODO Auto-generated catch block
+		e.printStackTrace();
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+	}
+}
+class bookdata {
+	public static void main(String args[])
+	{
+		String name,date,author;
+		String category[] = {"Self-Growth", "Happiness", "Productivity", "Business & Career", "Money & Investments", "Leadership", "Negotiation" , "Love & Sex", "Health", "Sports & Fitness", "Society & Tech", "Personalities", "Spirituality", "Family", "Home & Environment", "Fiction" };
+		
+	}
+}
+	

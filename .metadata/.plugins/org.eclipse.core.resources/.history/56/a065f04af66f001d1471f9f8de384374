@@ -1,0 +1,80 @@
+package beans;
+import java.sql.SQLException;
+import java.util.*;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Statement;
+
+public class books{
+	String name,date,author,category;
+	String category_list[] = {"Self-Growth", "Happiness", "Productivity", "Business & Career", "Money & Investments", "Leadership", "Negotiation" , "Love & Sex", "Health", "Sports & Fitness", "Society & Tech", "Personalities", "Spirituality", "Family", "Home & Environment", "Fiction" };
+	books(String name, String date, String author, int choice)
+	{
+		this.name = name;
+		this.date = date;
+		this.author = author;
+		this.category = category_list[choice - 1];
+	}
+	public void Display()
+	{
+		System.out.println("Book Data");
+		System.out.println("Name:" + name);
+		System.out.println("Author:" + author);
+		System.out.println("Published Date:" + date);
+		System.out.println("Category:" + category);
+	}
+	public void insert()
+	{
+		DatabaseConnection dbConnection = new DatabaseConnection("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/","root","","bookify");
+		// TODO Auto-generated method stub
+		try {
+			Connection conn = dbConnection.initilizeConnection();
+			Statement st = (Statement) conn.createStatement();
+			PreparedStatement pstmt = (PreparedStatement) con.prepareStatement("insert into books (book_name,category,author,published_date)values(?,?,?,?)");
+			pstmt.setString(1, name);
+			pstmt.setString(2, category);
+			pstmt.setString(3, author);
+			pstmt.setString(4, date);
+			int i = pstmt.executeUpdate();
+			System.out.println("Data Inserted!");
+			conn.close();
+		} catch (ClassNotFoundException e) {
+	// TODO Auto-generated catch block
+		System.out.println("Class Not Found Exception!");
+		e.printStackTrace();
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		System.out.println("SQL Exception!");
+		e.printStackTrace();
+		}	
+	}
+}
+class bookdata {
+	public static void main(String args[])
+	{
+		books b;
+		String name,date,author;
+		int category;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Book Details");
+		System.out.println("Enter Book Name:");
+		name = sc.next();
+		System.out.println("Enter Author Name:");
+		author = sc.next();
+		System.out.println("Enter Published Date:");
+		date = sc.next();
+		System.out.println("Category List:");
+		System.out.println("1. Self-Growth \n2. Happiness \n3. Productivity \n4. Business & Career \n5. Money & Investments \n6. Leadership \n7. Negotiation \n8. Love & Sex \n9. Health\n10. Sports & Fitness\n11. Society & Tech\n 12. Personalities\n13. Spirituality\n14. Family\n15. Home & Environment\n16. Fiction");
+		category = sc.nextInt();
+		if(category > 16 && category < 1)
+			System.out.println("Invalid Category");
+		else
+		{
+			b = new books(name,date,author,category);
+			b.Display();
+			b.insert();
+		}
+	}
+}
+	

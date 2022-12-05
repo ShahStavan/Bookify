@@ -1,0 +1,5 @@
+package beans;
+
+public class user_comment{
+	String comment
+}

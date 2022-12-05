@@ -1,0 +1,66 @@
+package beans;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.mysql.jdbc.Connection;
+
+public class main extends sellerInfo{
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Login(0) | Register(1)");
+		
+		
+		DatabaseConnection dbConnection = new DatabaseConnection("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/","root","","bookify");
+		try {
+			Connection conn = dbConnection.initilizeConnection();
+			switch(choice)
+			{
+			case 0:
+				System.out.println("------------LOGIN------------");
+				System.out.println("Enter Username:");
+				username = sc.next();
+				System.out.println("Enter Password:");
+				password = sc.next();
+				int id = sellerInfo.login(username, password, conn);
+				if(id != 0)
+				{
+					//System.out.println("LOGIN SUCCESSFUL");
+				}
+				else
+					System.out.println("INVALID CREDENTIALS or NO SUCH USER FOUND!");
+			break;
+			case 1:
+				System.out.println("------------RESGISTER------------");
+				System.out.println("Enter Username:");
+				username = sc.next();
+				System.out.println("Enter Email:");
+				email = sc.next();
+				System.out.println("Enter Password:");
+				password = sc.next();
+				System.out.println("Password:" + password);
+				int value = sellerInfo.register(username, password, conn, email);
+				if(value == 0)
+					System.out.println("Password doesn't match our Pattern!\n----------------------------------\n 1. Password Length: preferably over 8 characters\n 2. Complexity of Password: Must Contain LowerCase and UpperCase letters\n 3. Must Contain a numeric value\n 4. Must Contain a symbol");
+				else
+				{
+					System.out.println("REGISTRATION SUCCESSFUL");
+				}
+				
+			break;
+			default:
+				System.out.println("Invalid Choice!");
+				
+			}
+			
+			conn.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+}

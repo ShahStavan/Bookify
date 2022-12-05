@@ -1,0 +1,40 @@
+package beans;
+import java.sql.SQLException;
+import java.util.*;
+
+import com.mysql.jdbc.Connection;
+
+public class books{
+	String name,date,author,category;
+	String category_list[] = {"Self-Growth", "Happiness", "Productivity", "Business & Career", "Money & Investments", "Leadership", "Negotiation" , "Love & Sex", "Health", "Sports & Fitness", "Society & Tech", "Personalities", "Spirituality", "Family", "Home & Environment", "Fiction" };
+	books(String name, String date, String author, int choice)
+	{
+		this.name = name;
+		this.date = date;
+		this.author = author;
+		this.category = category_list[choice - 1];
+	}
+}
+class bookdata {
+	public static void main(String args[])
+	{
+		String name,date,author;
+		String category[] = {"Self-Growth", "Happiness", "Productivity", "Business & Career", "Money & Investments", "Leadership", "Negotiation" , "Love & Sex", "Health", "Sports & Fitness", "Society & Tech", "Personalities", "Spirituality", "Family", "Home & Environment", "Fiction" };
+		DatabaseConnection dbConnection = new DatabaseConnection("com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/","root","","bookify");
+		// TODO Auto-generated method stub
+		try {
+			Connection conn = dbConnection.initilizeConnection();
+			Scanner sc = new Scanner(System.in);
+			
+			conn.close();
+			
+		} catch (ClassNotFoundException e) {
+	// TODO Auto-generated catch block
+		e.printStackTrace();
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+	}
+}
+	
